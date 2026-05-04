@@ -458,7 +458,7 @@ body {
 
 .food-card {
     background-color: #5ab1e6; /* Light blue */
-    width: 240px;
+    width: 200px;
     border-radius: 20px;
     padding: 20px;
     display: flex;
