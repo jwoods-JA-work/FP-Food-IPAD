@@ -398,7 +398,7 @@ body {
 .budget-sticky {
     position: absolute;
     top: 40px;
-    left: 600px;
+    left: 400px;
     background-color: #f9e5af;
     
     /* Adjusted padding */
