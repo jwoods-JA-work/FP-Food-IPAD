@@ -397,8 +397,8 @@ body {
 /* Sticky Note in Top Right */
 .budget-sticky {
     position: absolute;
-    top: 25px;
-    left: 370px;
+    top: 15px;
+    left: 330px;
     background-color: #f9e5af;
     
     /* Adjusted padding */
