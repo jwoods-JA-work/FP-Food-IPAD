@@ -151,7 +151,7 @@ function makeChoice1(foodType, price) {
 
     // 3. Show the alert, then go to their specific mini-game!
     gameAlert(
-        "You bought " + foodType + " for $" + price + ". <br>You have $" + currentBudget + " left.", 
+        "You bought " + displayName + " for $" + price + ". <br>You have $" + currentBudget + " left.", 
         nextPage 
     );
 }
@@ -472,7 +472,7 @@ function makeChoice2(foodType, price) {
 
     // 3. Show the alert, then go to their specific mini-game!
     gameAlert(
-        "You bought " + foodType + " for $" + price + ". <br>You have $" + currentBudget + " left.", 
+        "You bought " + displayName + " for $" + price + ". <br>You have $" + currentBudget + " left.", 
         nextPage 
     );
 }
@@ -872,7 +872,7 @@ function makeChoice3(foodType, price) {
     
     // 4. Proceed to the mini-game
     gameAlert(
-        "You bought " + foodType + " for $" + price + ". <br>Remaining Budget: $" + b, 
+        "You bought " + displayName + " for $" + price + ". <br>Remaining Budget: $" + b, 
         nextPage
     );
 }
