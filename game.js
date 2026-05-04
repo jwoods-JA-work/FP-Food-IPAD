@@ -226,7 +226,7 @@ function spawnItem() {
         element: item, 
         y: -50, 
         type: item.dataset.type,
-        speed: 5 + Math.random() * 3 // Random drop speed between 4 and 7
+        speed: 8 + Math.random() * 3 // Random drop speed between 4 and 7
     });
 }
 
