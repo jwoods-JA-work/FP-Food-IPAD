@@ -725,16 +725,16 @@ function endBurgerGame(isWin) {
 
 
 /* ========================================================
-   THE BALANCE THE TRAY GAME (Mobile & Desktop Compatible)
+   THE BALANCE THE TRAY GAME (Fixed & Optimized)
 ======================================================== */
 let balanceTimer;
-let movementLoop;
 let checkLoop;
 let balanceTimeLeft = 10;
 let isBalanceActive = false;
 let mouseX = 0;
 let mouseY = 0;
 let balanceAngle = 0;
+let balanceAnimationId; // Store the animation ID to properly stop it
 
 function beginBalanceGame() {
     document.getElementById('game-directions-overlay').style.display = 'none';
@@ -745,104 +745,107 @@ function startBalanceGame() {
     let currentBudget = parseInt(localStorage.getItem("budget")) || 60;
     document.getElementById("game-budget").innerText = currentBudget;
     
+    // 1. Reset State
     isBalanceActive = true;
     balanceTimeLeft = 10;
-    balanceAngle = 0; 
-    
-    const zone = document.getElementById('balance-zone');
-    const traySurface = document.getElementById('tray-surface');
+    balanceAngle = 0;
+    document.getElementById('game-time').innerText = balanceTimeLeft;
 
-    // --- INPUT TRACKING (TOUCH & MOUSE) ---
+    const zone = document.getElementById('balance-zone');
+
+    // 2. Input Tracking Function
     function updateCoordinates(e) {
-        // If it's a touch event, use the first finger's position
+        if (!isBalanceActive) return;
         if (e.touches && e.touches.length > 0) {
             mouseX = e.touches[0].clientX;
             mouseY = e.touches[0].clientY;
         } else {
-            // Otherwise, use standard mouse position
             mouseX = e.clientX;
             mouseY = e.clientY;
         }
     }
 
-    // Listen for mouse
+    // 3. Attach Listeners
     window.addEventListener('mousemove', updateCoordinates);
-    
-    // Listen for touch
     window.addEventListener('touchstart', updateCoordinates);
-    window.addEventListener('touchmove', function(e) {
+    window.addEventListener('touchmove', (e) => {
         updateCoordinates(e);
-        // CRITICAL: Prevent iPad from scrolling while the user is balancing
         if (isBalanceActive) e.preventDefault();
     }, { passive: false });
 
-    // --- SMOOTH MOVEMENT ENGINE ---
+    // 4. Smooth Movement Engine
     function moveSmoothly() {
         if (!isBalanceActive) return;
 
         const tray = document.getElementById('tray-surface').getBoundingClientRect();
         
+        // Update the path angle
         balanceAngle += 0.03; 
         
         let centerX = (tray.width / 2) - 50;
         let centerY = (tray.height / 2) - 50;
         
+        // Calculate new X and Y based on an elliptical path
         let newX = centerX + (Math.cos(balanceAngle) * (tray.width / 3));
         let newY = centerY + (Math.sin(balanceAngle * 0.8) * (tray.height / 3));
 
         zone.style.left = newX + "px";
         zone.style.top = newY + "px";
 
-        requestAnimationFrame(moveSmoothly);
+        balanceAnimationId = requestAnimationFrame(moveSmoothly);
     }
 
-    requestAnimationFrame(moveSmoothly);
+    balanceAnimationId = requestAnimationFrame(moveSmoothly);
 
-    // --- COLLISION CHECKING ---
+    // 5. Collision Checking (Starts after 1s safety buffer)
     setTimeout(() => {
+        if (!isBalanceActive) return;
         checkLoop = setInterval(() => {
-            if(!isBalanceActive) return;
-            
             let zRect = zone.getBoundingClientRect();
             let cX = zRect.left + (zRect.width / 2);
             let cY = zRect.top + (zRect.height / 2);
             
             let distance = Math.sqrt(Math.pow(mouseX - cX, 2) + Math.pow(mouseY - cY, 2));
             
-            // iPad Tip: Fingers are wider than cursors. 
-            // I've increased the radius slightly to 60px for better touch gameplay.
+            // Fail if distance is too far (60px buffer for fingers)
             if (distance > 60) {
                 endBalanceGame(false);
             }
         }, 100);
     }, 1000); 
 
-    // --- TIMER ---
+    // 6. Countdown Timer
     balanceTimer = setInterval(() => {
         balanceTimeLeft--;
-        document.getElementById('game-time').innerText = balanceTimeLeft;
-        if (balanceTimeLeft <= 0) endBalanceGame(true);
+        const timeDisplay = document.getElementById('game-time');
+        if (timeDisplay) timeDisplay.innerText = balanceTimeLeft;
+
+        if (balanceTimeLeft <= 0) {
+            endBalanceGame(true);
+        }
     }, 1000);
 }
 
 function endBalanceGame(isWin) {
+    // 1. Stop everything immediately
     isBalanceActive = false;
     clearInterval(balanceTimer);
     clearInterval(checkLoop);
+    cancelAnimationFrame(balanceAnimationId);
     
-    // Clean up event listeners to save memory
-    window.removeEventListener('mousemove', updateCoordinates);
+    // 2. Clean up memory/listeners
+    window.removeEventListener('mousemove', null); 
     
     let currentBudget = parseInt(localStorage.getItem("budget"));
 
     if (isWin) {
         currentBudget += 5;
         localStorage.setItem("budget", currentBudget);
-        gameAlert("STEADY HANDS! 🍷<br>You delivered the meal perfectly. The table left a $5 bonus tip!", "day3.html");
+        gameAlert("STEADY HANDS! 🍷<br>You delivered the meal perfectly. $5 bonus tip!", "day3.html");
     } else {
         currentBudget -= 10;
         localStorage.setItem("budget", currentBudget);
-        gameAlert("CRASH! 💥<br>You dropped the tray! You had to pay $10 for the broken dishes.", "day3.html");
+        gameAlert("CRASH! 💥<br>You dropped the tray! Pay $10 for broken dishes.", "day3.html");
     }
 }
 
