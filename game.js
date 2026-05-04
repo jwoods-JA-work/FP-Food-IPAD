@@ -905,7 +905,7 @@ function checkBudgetStatus() {
 let sortItemsLeft = 10;
 let isSortActive = false;
 let currentItemType = ""; 
-let itemSpeed = 12;
+let itemSpeed = 10;
 
 // Matches HTML: onclick="beginSortGame()"
 function beginSortGame() {
@@ -914,7 +914,7 @@ function beginSortGame() {
 
     sortItemsLeft = 10;
     isSortActive = true;
-    itemSpeed = 12;
+    itemSpeed = 10;
     
     updateSortUI();
     spawnSortItem();
@@ -1007,7 +1007,7 @@ function nextSortItem() {
         isSortActive = false;
         finishDay3("Shift over! You sorted your groceries.");    
     } else {
-        itemSpeed += 0.2; // Slightly faster
+        itemSpeed += 0.05; // Slightly faster
         spawnSortItem();
     }
 }
