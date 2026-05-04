@@ -140,11 +140,11 @@ function makeChoice1(foodType, price) {
         // Send them to the Aisle Dodger game we just built!
         nextPage = "event-groceries1.html"; 
     } 
-    else if (foodType === "fast food") {
+    else if (foodType === "fastfood") {
         // Send them to the Fast Food mini-game (you will create this file next)
         nextPage = "event-fastfood1.html"; 
     } 
-    else if (foodType === "dining out") {
+    else if (foodType === "diningout") {
         // Send them to the Dining Out mini-game (you will create this file next)
         nextPage = "event-diningout1.html"; 
     }
