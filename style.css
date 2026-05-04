@@ -199,7 +199,7 @@ body {
     text-align: left;         /* Aligns the text cleanly to the left */
     display: inline-block;    /* Keeps the whole list centered inside the card */
     margin: 20px auto;        /* Adds space around the list */
-    font-size: 27px;          /* Adjust to match your paragraph size */
+    font-size: 22px;          /* Adjust to match your paragraph size */
     line-height: 1.6;         /* Gives the text room to breathe */
     font-family: "Wendy One", sans-serif;
     color: #144a7b;
