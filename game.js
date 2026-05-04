@@ -1090,7 +1090,7 @@ function checkBag(bagColor) {
     if (bagColor === currentColor) {
         itemsBagged++;
         document.getElementById('items-bagged').innerText = itemsBagged;
-        chuteSpeed += 0.5; // Get faster
+        chuteSpeed += 0.1; // Get faster
     } else {
         updateBaggingBudget(-3);
     }
@@ -1118,7 +1118,7 @@ function updateBaggingBudget(amt) {
 let garnishActive = false;
 let platePos = 0;
 let plateDirection = 1;
-let plateSpeed = 5;
+let plateSpeed = 10;
 let garnishLoop;
 
 function beginGarnishGame() {
