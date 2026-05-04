@@ -373,7 +373,7 @@ function checkTossHit() {
 ======================================================== */
 let tipPos = 0;          // Tracks percentage (0 to 100)
 let tipDirection = 1;    // 1 moving right, -1 moving left
-let tipSpeed = 3;      // How fast the percentage changes
+let tipSpeed = 4;      // How fast the percentage changes
 let tipLoop;
 let hasStoppedTip = false;
 
