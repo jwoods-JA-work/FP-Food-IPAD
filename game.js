@@ -853,19 +853,24 @@ function endBalanceGame(isWin) {
    CHOICE 3 & NAVIGATION
 ======================================================== */
 function makeChoice3(foodType, price) {
-    let b = parseInt(localStorage.getItem("budget"));
+    let b = parseInt(localStorage.getItem("budget")) || 0;
     
-    // 1. Subtract the price
+    // 1. Check if the player can actually afford the choice
+    if (b < price) {
+        gameAlert("You don't have enough money left to buy " + foodType + "!", () => {
+            window.location.href = "gameover.html";
+        });
+        return; // Stop the function here so the game doesn't load
+    }
+
+    // 2. Subtract the price and save
     b -= price;
     localStorage.setItem("budget", b);
 
-    // 2. Define where we are going
+    // 3. Define where we are going
     let nextPage = "event-" + foodType + "3.html";
-
-    // 3. CHANGE: We remove the "if (b <= 0)" check here.
-    // We want the player to play the game regardless!
-    // They will only lose if they finish the mini-game with $0.
     
+    // 4. Proceed to the mini-game
     gameAlert(
         "You bought " + foodType + " for $" + price + ". <br>Remaining Budget: $" + b, 
         nextPage
