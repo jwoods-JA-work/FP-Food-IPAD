@@ -905,7 +905,7 @@ function checkBudgetStatus() {
 let sortItemsLeft = 10;
 let isSortActive = false;
 let currentItemType = ""; 
-let itemSpeed = 20;
+let itemSpeed = 12;
 
 // Matches HTML: onclick="beginSortGame()"
 function beginSortGame() {
@@ -914,7 +914,7 @@ function beginSortGame() {
 
     sortItemsLeft = 10;
     isSortActive = true;
-    itemSpeed = 20;
+    itemSpeed = 12;
     
     updateSortUI();
     spawnSortItem();
@@ -1030,7 +1030,7 @@ function updateBudget(amount) {
 ======================================================== */
 let baggingActive = false;
 let itemsBagged = 0;
-let chuteSpeed = 25;
+let chuteSpeed = 15;
 let currentColor = "";
 let baggingLoop;
 
@@ -1038,7 +1038,7 @@ function beginBaggingGame() {
     document.getElementById('game-directions-overlay').style.display = 'none';
     baggingActive = true;
     itemsBagged = 0;
-    chuteSpeed = 25;
+    chuteSpeed = 15;
     spawnChuteItem();
 }
 
