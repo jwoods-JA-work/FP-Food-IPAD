@@ -133,9 +133,13 @@ function makeChoice1(foodType, price) {
     }
     localStorage.setItem("day1Choice", foodType);
 
+   let displayName = foodType; 
+    if (foodType === "fastfood") displayName = "fast food";
+    if (foodType === "diningout") displayName = "dining out";
+
     // 2. The Traffic Cop: Where do they go next?
     let nextPage = "";
-    
+
     if (foodType === "groceries") {
         // Send them to the Aisle Dodger game we just built!
         nextPage = "event-groceries1.html"; 
@@ -453,6 +457,10 @@ function makeChoice2(foodType, price) {
         return;
     }
     localStorage.setItem("day1Choice", foodType);
+
+   let displayName = foodType; 
+    if (foodType === "fastfood") displayName = "fast food";
+    if (foodType === "diningout") displayName = "dining out";
 
     // 2. The Traffic Cop: Where do they go next?
     let nextPage = "";
@@ -866,6 +874,10 @@ function makeChoice3(foodType, price) {
     // 2. Subtract the price and save
     b -= price;
     localStorage.setItem("budget", b);
+
+   let displayName = foodType; 
+    if (foodType === "fastfood") displayName = "fast food";
+    if (foodType === "diningout") displayName = "dining out";
 
     // 3. Define where we are going
     let nextPage = "event-" + foodType + "3.html";
