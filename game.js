@@ -294,7 +294,7 @@ function endDodgerGame() {
 ======================================================== */
 let carPos = 0;
 let carDirection = 1; // 1 = right, -1 = left
-let carSpeed = 17;     // Speed of the car
+let carSpeed = 12;     // Speed of the car
 let driveLoop;
 let hasTossed = false;
 
@@ -318,12 +318,12 @@ function moveCar() {
     // If it hits the right edge (600 board width - 200 car width = 400)
     if (carPos >= 400) {
         carDirection = -1; // Reverse left
-        carSpeed = 17; // Randomize speed coming back!
+        carSpeed = 12; // Randomize speed coming back!
     }
     // If it hits the left edge
     if (carPos <= 0) {
         carDirection = 1; // Reverse right
-        carSpeed = 17; // Randomize speed coming back!
+        carSpeed = 12; // Randomize speed coming back!
     }
 
     car.style.left = carPos + 'px';
