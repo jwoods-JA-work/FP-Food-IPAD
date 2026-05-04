@@ -518,7 +518,7 @@ function startScavengerGame() {
     // 3. Create the pool of items to scatter on the shelf
     // We include our 3 targets, plus a bunch of random junk food distractions
     let itemsToScatter = [...targetItems];
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 45; i++) {
         // Pick a random item from the junk list to clutter the shelf
         let randomJunk = junkItems[Math.floor(Math.random() * junkItems.length)];
         itemsToScatter.push(randomJunk);
