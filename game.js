@@ -1042,7 +1042,7 @@ function updateBudget(amount) {
 ======================================================== */
 let baggingActive = false;
 let itemsBagged = 0;
-let chuteSpeed = 15;
+let chuteSpeed = 12;
 let currentColor = "";
 let baggingLoop;
 
@@ -1050,7 +1050,7 @@ function beginBaggingGame() {
     document.getElementById('game-directions-overlay').style.display = 'none';
     baggingActive = true;
     itemsBagged = 0;
-    chuteSpeed = 15;
+    chuteSpeed = 12;
     spawnChuteItem();
 }
 
