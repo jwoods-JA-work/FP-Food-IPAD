@@ -144,7 +144,7 @@ function makeChoice1(foodType, price) {
         // Send them to the Fast Food mini-game (you will create this file next)
         nextPage = "event-fastfood1.html"; 
     } 
-    else if (foodType === "diningout") {
+    else if (foodType === "dining out") {
         // Send them to the Dining Out mini-game (you will create this file next)
         nextPage = "event-diningout1.html"; 
     }
