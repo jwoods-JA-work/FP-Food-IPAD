@@ -1017,7 +1017,7 @@ function nextSortItem() {
     
     if (sortItemsLeft <= 0) {
         isSortActive = false;
-        finishDay3("Shift over! You sorted your groceries.");    
+        finishDay3("You sorted your groceries.");    
     } else {
         itemSpeed += 0.05; // Slightly faster
         spawnSortItem();
