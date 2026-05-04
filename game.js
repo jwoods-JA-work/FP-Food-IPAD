@@ -522,6 +522,14 @@ function startScavengerGame() {
         // Pick a random item from the junk list to clutter the shelf
         let randomJunk = junkItems[Math.floor(Math.random() * junkItems.length)];
         itemsToScatter.push(randomJunk);
+       let isTarget = targetItems.includes(item);
+
+// If it's a target, bring it to the front!
+if (isTarget) {
+    element.style.zIndex = "10"; 
+} else {
+    element.style.zIndex = "1";
+}
     }
 
     // Shuffle everything so the targets are hidden among the junk
