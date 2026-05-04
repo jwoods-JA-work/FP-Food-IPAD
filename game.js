@@ -725,7 +725,7 @@ function endBurgerGame(isWin) {
 
 
 /* ========================================================
-   THE BALANCE THE TRAY GAME
+   THE BALANCE THE TRAY GAME (Mobile & Desktop Compatible)
 ======================================================== */
 let balanceTimer;
 let movementLoop;
@@ -734,13 +734,12 @@ let balanceTimeLeft = 10;
 let isBalanceActive = false;
 let mouseX = 0;
 let mouseY = 0;
+let balanceAngle = 0;
 
 function beginBalanceGame() {
     document.getElementById('game-directions-overlay').style.display = 'none';
     startBalanceGame();
 }
-
-let balanceAngle = 0; // Tracks the "path" of the circle
 
 function startBalanceGame() {
     let currentBudget = parseInt(localStorage.getItem("budget")) || 60;
@@ -748,15 +747,34 @@ function startBalanceGame() {
     
     isBalanceActive = true;
     balanceTimeLeft = 10;
-    balanceAngle = 0; // Reset the path
+    balanceAngle = 0; 
     
     const zone = document.getElementById('balance-zone');
+    const traySurface = document.getElementById('tray-surface');
 
-    // Track mouse movement
-    window.onmousemove = (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    };
+    // --- INPUT TRACKING (TOUCH & MOUSE) ---
+    function updateCoordinates(e) {
+        // If it's a touch event, use the first finger's position
+        if (e.touches && e.touches.length > 0) {
+            mouseX = e.touches[0].clientX;
+            mouseY = e.touches[0].clientY;
+        } else {
+            // Otherwise, use standard mouse position
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        }
+    }
+
+    // Listen for mouse
+    window.addEventListener('mousemove', updateCoordinates);
+    
+    // Listen for touch
+    window.addEventListener('touchstart', updateCoordinates);
+    window.addEventListener('touchmove', function(e) {
+        updateCoordinates(e);
+        // CRITICAL: Prevent iPad from scrolling while the user is balancing
+        if (isBalanceActive) e.preventDefault();
+    }, { passive: false });
 
     // --- SMOOTH MOVEMENT ENGINE ---
     function moveSmoothly() {
@@ -764,29 +782,23 @@ function startBalanceGame() {
 
         const tray = document.getElementById('tray-surface').getBoundingClientRect();
         
-        // This math creates a "wandering" pattern
-        // We use sine and cosine so the circle stays within the oval tray
-        balanceAngle += 0.03; // Change this number to make it faster or slower
+        balanceAngle += 0.03; 
         
         let centerX = (tray.width / 2) - 50;
         let centerY = (tray.height / 2) - 50;
         
-        // The circle will now glide in a smooth, elliptical path
         let newX = centerX + (Math.cos(balanceAngle) * (tray.width / 3));
         let newY = centerY + (Math.sin(balanceAngle * 0.8) * (tray.height / 3));
 
         zone.style.left = newX + "px";
         zone.style.top = newY + "px";
 
-        // Loop the movement
         requestAnimationFrame(moveSmoothly);
     }
 
-    // Start the smooth glider
     requestAnimationFrame(moveSmoothly);
 
-    // --- SAFETY BUFFER FOR COLLISION ---
-    // Wait 1 second before we start checking if the player is failing
+    // --- COLLISION CHECKING ---
     setTimeout(() => {
         checkLoop = setInterval(() => {
             if(!isBalanceActive) return;
@@ -797,13 +809,15 @@ function startBalanceGame() {
             
             let distance = Math.sqrt(Math.pow(mouseX - cX, 2) + Math.pow(mouseY - cY, 2));
             
-            // Fail if the mouse leaves the 50px radius
-            if (distance > 50) {
+            // iPad Tip: Fingers are wider than cursors. 
+            // I've increased the radius slightly to 60px for better touch gameplay.
+            if (distance > 60) {
                 endBalanceGame(false);
             }
         }, 100);
     }, 1000); 
 
+    // --- TIMER ---
     balanceTimer = setInterval(() => {
         balanceTimeLeft--;
         document.getElementById('game-time').innerText = balanceTimeLeft;
@@ -814,8 +828,10 @@ function startBalanceGame() {
 function endBalanceGame(isWin) {
     isBalanceActive = false;
     clearInterval(balanceTimer);
-    clearInterval(movementLoop);
     clearInterval(checkLoop);
+    
+    // Clean up event listeners to save memory
+    window.removeEventListener('mousemove', updateCoordinates);
     
     let currentBudget = parseInt(localStorage.getItem("budget"));
 
@@ -824,9 +840,9 @@ function endBalanceGame(isWin) {
         localStorage.setItem("budget", currentBudget);
         gameAlert("STEADY HANDS! 🍷<br>You delivered the meal perfectly. The table left a $5 bonus tip!", "day3.html");
     } else {
-        currentBudget -= 10; // High penalty for dining out!
+        currentBudget -= 10;
         localStorage.setItem("budget", currentBudget);
-        gameAlert("CRASH! 💥<br>You dropped the expensive tray! You had to pay $10 for the broken dishes.", "day3.html");
+        gameAlert("CRASH! 💥<br>You dropped the tray! You had to pay $10 for the broken dishes.", "day3.html");
     }
 }
 
