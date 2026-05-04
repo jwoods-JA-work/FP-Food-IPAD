@@ -542,12 +542,6 @@ function startScavengerGame() {
         // Check if this specific element is one of our targets
         let isTarget = targetItems.includes(item);
 
-       // If it's a target, bring it to the front!
-if (isTarget) {
-    element.style.zIndex = "10"; 
-} else {
-    element.style.zIndex = "1";
-}
 
         // Add the click event
         element.onclick = function() {
