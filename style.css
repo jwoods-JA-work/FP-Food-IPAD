@@ -1,5 +1,8 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Condensed:wght@400;700&display=swap');
 body {
     margin: 0;
+    font-family: 'Roboto Condensed', sans-serif;
 }
 
 #start-screen{
@@ -20,38 +23,38 @@ body {
     /* Sizing from the travel game */
     width: min(500px, 85vw);
     padding: 40px 25px;
-    background-color: rgba(252, 251, 231, 0.85);
+    background-color: rgba(34, 64, 77, 0.0.75);
     text-align: center;
     border-radius: 10px;
         
 }
 
 .start-card h1 {
-    color: #144a7b;
-    font-family: 'Wendy One', sans-serif;
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
     font-size: 120px ;
     margin-bottom: 20px;
     font-weight: bold;
 }
 
 .start-card p {
-    color: #339fba;
-    font-family: 'Wendy One', sans-serif;
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
     font-size: 36px;
     font-weight: bold;
     margin-bottom: 20px;
 }
 
 .start-card button {
-    font-family: 'Wendy One', sans-serif;
-    background: #e5556c;
-    color:#fcfbe7;
+    font-family: 'Montserrat', sans-serif;
+    background: #00c0ca;
+    color:#ffffff;
     border: none;
     padding: 15px 50px;
     font-size: 30px;
     border-radius: 50px;
     cursor: pointer;
-    box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+    box-shadow: 5px 5px 10px rgba(34,64,77,0.3);
 }
 
 #mission-screen {
@@ -70,30 +73,30 @@ body {
 .mission-card {
     width: min(500px, 85vw);
     padding: 40px 25px;
-    background-color: rgba(252, 251, 231, 0.85);
+    background-color: rgba(34, 64, 77, 0.75);
     text-align: center;
     border-radius: 10px;
 }
 
 .mission-card h1 {
-    color: #339fba;
-    font-family: 'Wendy One', sans-serif;
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
     font-size: 55px ;
     margin-bottom: 20px;
     font-weight: bold;
 }
 
 .mission-card h2 {
-    color: #144a7b;
-    font-family: 'Wendy One', sans-serif;
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
     font-size: 86px;
     font-weight: bold;
     margin-bottom: 20px;
 }
 
 .mission-card p {
-    color: #144a7b;
-    font-family: "Sanchez",sans-serif;
+    color: #ffffff;
+    font-family: "Roboto Condensed",sans-serif;
     font-size: 45px;
 }
 
@@ -141,22 +144,22 @@ body {
     width: 750px;
     height: 130px;
     padding: 20px 40px 60px 40px;
-    background-color: rgba(252, 251, 231, 0.85);
+    background-color: rgba(34, 64, 77, 0.75);
     text-align: center;
     margin-bottom:400px;
 }
 
 .click-note-card h1 {
-    color: #144a7b;
-    font-family: 'Wendy One', sans-serif;
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
     font-size: 36px;
     font-weight: bold;
     margin-bottom: 20px;
 }
 
 .click-note-card p {
-    color: #144a7b;
-    font-family: "Sanchez",sans-serif;
+    color: #ffffff;
+    font-family: "Roboto Condensed",sans-serif;
     font-size: 24px;
 }
 
@@ -201,8 +204,8 @@ body {
     margin: 20px auto;        /* Adds space around the list */
     font-size: 22px;          /* Adjust to match your paragraph size */
     line-height: 1.6;         /* Gives the text room to breathe */
-    font-family: "Wendy One", sans-serif;
-    color: #144a7b;
+    font-family: "Montserrat", sans-serif;
+    color: #ffffff;
 
 
 }
@@ -238,7 +241,7 @@ body {
 
 /* Timer Sticky Note */
 .timer-box {
-    background-color: #fcfbe7;
+    background-color: #22404d;
     padding: 15px 40px;
     position: relative;
     z-index: 2;
@@ -258,8 +261,8 @@ body {
 }
 
 .timer-box h1 {
-    color: #2883d4; /* Bright blue from your travel game / image */
-    font-family: 'Wendy One', sans-serif;
+    color: #ffffff; /* Bright blue from your travel game / image */
+    font-family: 'Montserrat', sans-serif;
     font-size: 60px;
     margin: 0;
     letter-spacing: 2px;
@@ -267,15 +270,15 @@ body {
 
 /* The dashed box wrapping the quiz */
 .quiz-board {
-    border: 4px dashed #b1aebf; /* Purple/Grey dashed line */
+    border: 4px dashed #00c0ca; /* Purple/Grey dashed line */
     padding: 60px 40px 40px 40px;
     width: 100%;
     text-align: center;
 }
 
 .quiz-question {
-    color: #144a7b;
-    font-family: 'Wendy One', sans-serif;
+    color: #22404d;
+    font-family: 'Montserrat, sans-serif;
     font-size: 32px;
     margin-bottom: 40px;
     text-transform: uppercase;
@@ -289,14 +292,14 @@ body {
 }
 
 .answer-btn {
-    background-color: #fcfbe7;
+    background-color: #00c0ca;
     border: none;
     border-radius: 5px;
     padding: 20px;
     width: 220px;
     min-height: 120px;
     color: #144a7b;
-    font-family: 'Wendy One', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 20px;
     font-weight: bold;
     cursor: pointer;
@@ -338,7 +341,7 @@ body {
 }
 
 #custom-alert-box {
-    background: white;
+    background: 22404d;
     border: 6px solid #111;
     border-radius: 20px;
     padding: 40px;
@@ -357,16 +360,16 @@ body {
 }
 
 #custom-alert-text {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: clamp(20px, 4vw, 28px);
     font-weight: bold;
-    color: #333;
+    color: #fff;
     margin-bottom: 30px;
 }
 
 #custom-alert-btn {
-    font-family: 'Titan One', sans-serif;
-    background: #2883d4;
+    font-family: 'Roboto Condensed', sans-serif;
+    background: #00c0ca;
     color: white;
     border: 4px solid #111;
     font-size: clamp(20px, 4vw, 26px);
@@ -399,7 +402,7 @@ body {
     position: absolute;
     top: 5px;
     left: 270px;
-    background-color: #f9e5af;
+    background-color: #22404d;
     
     /* Adjusted padding */
     padding: 25px 40px 15px 40px; 
@@ -410,15 +413,15 @@ body {
 }
 
 .budget-sticky h2 {
-    color: #144a7b; /* Blue text */
-    font-family: 'Sanchez', sans-serif;
+    color: #ffffff; /* Blue text */
+    font-family: 'Montserrat', sans-serif;
     font-size: 32px;
     margin: 5px 0;
 }
 
 /* Prompt Box */
 .prompt-box {
-    background-color: #fceea7;
+    background-color: #22404d;
     padding: 20px 40px;
     width: 600px;
     text-align: center;
@@ -443,8 +446,8 @@ body {
 }
 
 .prompt-box p {
-    color:#3f6619;
-    font-family: 'Wendy One', sans-serif;
+    color:#ffffff;
+    font-family: 'Montserrat', sans-serif;
     font-size: 22px;
     margin: 0;
 }
@@ -457,7 +460,7 @@ body {
 }
 
 .food-card {
-    background-color: #5ab1e6; /* Light blue */
+    background-color: #00c0ca; /* Light blue */
     width: 200px;
     border-radius: 20px;
     padding: 20px;
@@ -485,16 +488,16 @@ body {
 }
 
 .food-card h2 {
-    color: #111;
-    font-family: 'Wendy One', sans-serif;
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
     font-size: 36px;
     font-weight: bold;
     margin: 5px 0;
 }
 
 .food-card h3 {
-    color: #111;
-    font-family: 'Wendy One', sans-serif;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
     font-weight: bold;
     font-size: 28px;
     margin: 0 0 15px 0;
@@ -502,15 +505,15 @@ body {
 
 /* Green Buy Button */
 .buy-btn {
-    background-color: #28a745; /* Bright green */
+    background-color: #22404d; /* Bright green */
     color: white;
-    font-family: 'Wendy One', sans-serif;
+    font-family: 'Roboto Condensed', sans-serif;
     font-size: 24px;
     border: none;
     border-radius: 30px;
     padding: 10px 40px;
     cursor: pointer;
-    box-shadow: 2px 4px 0px #1e7e34; /* Darker green shadow for 3D effect */
+    box-shadow: 2px 4px 0px #000; /* Darker green shadow for 3D effect */
     transition: transform 0.1s, box-shadow 0.1s;
 }
 
@@ -536,7 +539,7 @@ body {
     display: flex;
     justify-content: space-between;
     width: 400px;
-    background: #fceea7;
+    background: #22404d;
     padding: 10px 25px;
     border: 4px solid #b1aebf;
     border-radius: 15px;
@@ -545,8 +548,8 @@ body {
 }
 
 .game-header h2 {
-    font-family: 'Wendy One', sans-serif;
-    color: #144a7b;
+    font-family: 'Montserrat', sans-serif;
+    color: #fff;
     margin: 0;
     font-size: 28px;
 }
@@ -554,8 +557,8 @@ body {
 #game-board {
     width: 400px;
     height: 500px;
-    background-color: #fdfbe2; /* Super light yellow floor */
-    border: 6px solid #b1aebf;
+    background-color: #92f1f6; /* Super light yellow floor */
+    border: 6px solid #72707c;
     border-radius: 15px;
     position: relative;
     overflow: hidden; /* Stops items from showing outside the box */
@@ -625,7 +628,7 @@ body {
 #drive-thru-board {
     width: 600px;
     height: 400px;
-    background-color: #87CEEB; /* Sky blue outside */
+    background-color: #00c0ca; /* Sky blue outside */
     border: 12px solid #333;
     border-radius: 20px;
     position: relative;
@@ -697,9 +700,9 @@ body {
 
 /* The Button */
 #toss-btn {
-    background-color: #f4d35e;
-    color: #111;
-    font-family: 'Wendy One', sans-serif;
+    background-color: #22404;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
     font-size: 40px;
     padding: 15px 80px;
     border: 6px solid #111;
@@ -752,8 +755,8 @@ body {
 }
 
 .receipt h2 {
-    font-family: 'Wendy One', sans-serif;
-    color: #e74c3c;
+    font-family: 'Montserrat', sans-serif;
+    color: #00c0ca;
     font-size: 32px;
     margin-top: 20px;
 }
@@ -767,7 +770,7 @@ body {
 .slider-labels {
     display: flex;
     justify-content: space-between;
-    font-family: 'Wendy One', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 24px;
     color: white;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
@@ -806,9 +809,9 @@ body {
 }
 
 #stop-tip-btn {
-    background-color: #2883d4;
+    background-color: #22404d;
     color: white;
-    font-family: 'Wendy One', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 40px;
     padding: 15px 80px;
     border: 6px solid #111;
@@ -850,7 +853,7 @@ body {
 }
 
 #shopping-list-note {
-    background-color: #fcfbe7;
+    background-color: #00c0ca;
     padding: 15px 40px 15px 20px;
     border: 2px solid #e0ddb1;
     box-shadow: 4px 4px 10px rgba(0,0,0,0.2);
@@ -861,7 +864,7 @@ body {
 }
 
 #shopping-list-note h3 {
-    font-family: 'Wendy One', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     color: #e74c3c;
     font-size: 28px;
     margin-top: 5px;
@@ -870,7 +873,7 @@ body {
 }
 
 #target-list-ui {
-    font-family: 'Sanchez', sans-serif;
+    font-family: 'Roboto Condensed', sans-serif;
     font-size: 22px;
     color: #111;
     list-style-type: square;
@@ -943,7 +946,7 @@ body {
 }
 
 .directions-popup {
-    background-color: #fcfbe7;
+    background-color: #22404d;
     border: 6px solid #144a7b;
     border-radius: 15px;
     padding: 40px;
@@ -954,7 +957,7 @@ body {
 
 .directions-popup h1 {
     color: #e74c3c;
-    font-family: 'Wendy One', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 45px;
     margin-top: 0;
     margin-bottom: 20px;
@@ -962,14 +965,14 @@ body {
 
 .directions-popup .mission-list {
     font-size: 24px;
-    color: #111;
+    color: #fff;
     margin-bottom: 30px;
 }
 
 #start-minigame-btn {
-    background-color: #28a745;
+    background-color: #00c0ca;
     color: white;
-    font-family: 'Wendy One', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 30px;
     padding: 15px 50px;
     border: none;
