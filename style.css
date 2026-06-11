@@ -23,7 +23,7 @@ body {
     /* Sizing from the travel game */
     width: min(500px, 85vw);
     padding: 40px 25px;
-    background-color: rgba(34, 64, 77, 0.0.75);
+    background-color: rgba(34, 64, 77, 0.75);
     text-align: center;
     border-radius: 10px;
         
