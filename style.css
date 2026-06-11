@@ -173,6 +173,15 @@ body {
     cursor: pointer;
 }
 
+.directions-card next-button {
+    position: absolute;
+    width: 80px;
+    height: auto;
+
+    animation: hearbeat 1.5s infinite;
+    cursor: pointer;
+}
+
 #directions-screen {
     background-image: url('Images/kitchen-background-blurry.png');
     background-size: cover; 
