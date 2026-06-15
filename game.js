@@ -9,7 +9,7 @@ function gameAlert(message, nextAction) {
     box.id = "custom-alert-box";
 
     const text = document.createElement("div");
-    text.id = "custom-alert-text";
+    text.id = "custom-alert-text"; 
     text.innerHTML = message; 
 
     const btn = document.createElement("button");
@@ -128,7 +128,7 @@ function makeChoice1(foodType, price) {
     localStorage.setItem("budget", currentBudget);
 
     if (currentBudget <= 0) {
-        gameAlert("You spent your last dollar! Game Over.", "day1.html");
+        gameAlert("You spent your last dollar! Game Over.", "gameover.html");
         return;
     }
     localStorage.setItem("day1Choice", foodType);
@@ -453,7 +453,7 @@ function makeChoice2(foodType, price) {
     localStorage.setItem("budget", currentBudget);
 
     if (currentBudget <= 0) {
-        gameAlert("You spent your last dollar! Game Over.", "day1.html");
+        gameAlert("You spent your last dollar! Game Over.", "gameover.html");
         return;
     }
     localStorage.setItem("day1Choice", foodType);
