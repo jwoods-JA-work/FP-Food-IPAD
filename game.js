@@ -128,7 +128,7 @@ function makeChoice1(foodType, price) {
     localStorage.setItem("budget", currentBudget);
 
     if (currentBudget <= 0) {
-        gameAlert("You spent your last dollar! Game Over.", "gameover.html");
+        gameAlert("You spent your last dollar! Game Over.", "day1.html");
         return;
     }
     localStorage.setItem("day1Choice", foodType);
