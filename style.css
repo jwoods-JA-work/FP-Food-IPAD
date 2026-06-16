@@ -103,7 +103,7 @@ body {
 /* --- SHARED STYLES (Applies to ALL next buttons) --- */
 .next-button {
     position: absolute;
-    width: 80px;
+    width: 120px;
     height: auto;
     cursor: pointer;
     z-index: 10;
