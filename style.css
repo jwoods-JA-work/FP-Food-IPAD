@@ -100,14 +100,26 @@ body {
     font-size: 45px;
 }
 
+/* --- SHARED STYLES (Applies to ALL next buttons) --- */
 .next-button {
-    position:absolute;
+    position: absolute;
     width: 80px;
     height: auto;
-    right: 200px;
-    bottom: 310px;
-    animation: heartbeat 1.5s infinite; /* Duration and repeat count */
     cursor: pointer;
+    z-index: 10;
+    animation: heartbeat 1.5s infinite;
+}
+
+/* --- SPECIFIC POSITIONING FOR INDEX.HTML --- */
+#mission-next {
+    right: 50px;       /* Tweak these values specifically for the mission card */
+    bottom: 40px;
+}
+
+/* --- SPECIFIC POSITIONING FOR CLICK-NOTE.HTML --- */
+#directions-next {
+    right: 200px;      /* Tweak these values specifically for the sticky note card */
+    bottom: 310px;
 }
 
 @keyframes heartbeat {
