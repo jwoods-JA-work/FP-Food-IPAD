@@ -180,7 +180,7 @@ body {
     width: 100px;
     height: auto;
     right: 110px;
-    top: 500px;
+    top: 520px;
     animation: heartbeat 1.5s infinite; /* Duration and repeat count */
     cursor: pointer;
 }
