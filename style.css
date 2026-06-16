@@ -113,7 +113,7 @@ body {
 /* --- SPECIFIC POSITIONING FOR INDEX.HTML --- */
 #mission-next {
     right: 50px;       /* Tweak these values specifically for the mission card */
-    bottom: 20px;
+    bottom: 30px;
 }
 
 /* --- SPECIFIC POSITIONING FOR CLICK-NOTE.HTML --- */
