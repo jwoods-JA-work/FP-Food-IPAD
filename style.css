@@ -105,7 +105,7 @@ body {
     width: 100px;
     height: auto;
     right: 200px;
-    bottom: 280px;
+    bottom: 310;
     animation: heartbeat 1.5s infinite; /* Duration and repeat count */
     cursor: pointer;
 }
