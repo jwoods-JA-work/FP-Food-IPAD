@@ -100,7 +100,7 @@ body {
     font-size: 45px;
 }
 
-.mission-card next-button {
+next-button {
     position:absolute;
     width: 100px;
     height: auto;
@@ -173,15 +173,6 @@ body {
     cursor: pointer;
 }
 
-.directions-card next-button {
-    position:absolute;
-    width: 100px;
-    height: auto;
-    right: 200px;
-    bottom: 310px;
-    animation: heartbeat 1.5s infinite; /* Duration and repeat count */
-    cursor: pointer;
-}
 
 #directions-screen {
     background-image: url('Images/kitchen-background-blurry.png');
