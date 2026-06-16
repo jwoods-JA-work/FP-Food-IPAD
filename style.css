@@ -100,7 +100,7 @@ body {
     font-size: 45px;
 }
 
-.next-button2 {
+.mission-carn next-button {
     position:absolute;
     width: 100px;
     height: auto;
@@ -174,11 +174,12 @@ body {
 }
 
 .directions-card next-button {
-    position: absolute;
-    width: 80px;
+    position:absolute;
+    width: 100px;
     height: auto;
-
-    animation: hearbeat 1.5s infinite;
+    right: 200px;
+    bottom: 310px;
+    animation: heartbeat 1.5s infinite; /* Duration and repeat count */
     cursor: pointer;
 }
 
