@@ -133,27 +133,26 @@ function makeChoice1(foodType, price) {
     }
     localStorage.setItem("day1Choice", foodType);
 
-   let displayName = foodType; 
+    // FIX: Clean, strict spacing cleanup variables
+    let displayName = foodType; 
     if (foodType === "fastfood") displayName = "fast food";
     if (foodType === "diningout") displayName = "dining out";
+    if (foodType === "groceries") displayName = "groceries";
 
     // 2. The Traffic Cop: Where do they go next?
     let nextPage = "";
 
     if (foodType === "groceries") {
-        // Send them to the Aisle Dodger game we just built!
         nextPage = "event-groceries1.html"; 
     } 
     else if (foodType === "fastfood") {
-        // Send them to the Fast Food mini-game (you will create this file next)
         nextPage = "event-fastfood1.html"; 
     } 
     else if (foodType === "diningout") {
-        // Send them to the Dining Out mini-game (you will create this file next)
         nextPage = "event-diningout1.html"; 
     }
 
-    // 3. Show the alert, then go to their specific mini-game!
+    // 3. Show the alert
     gameAlert(
         "You bought " + displayName + " for $" + price + ". <br>You have $" + currentBudget + " left.", 
         nextPage 
@@ -456,29 +455,28 @@ function makeChoice2(foodType, price) {
         gameAlert("You spent your last dollar! Game Over.", "gameover.html");
         return;
     }
-    localStorage.setItem("day1Choice", foodType);
+    localStorage.setItem("day2Choice", foodType); // Fixed key name to day2Choice here as well!
 
-   let displayName = foodType; 
+    // FIX: Added the clean formatting block here too!
+    let displayName = foodType; 
     if (foodType === "fastfood") displayName = "fast food";
     if (foodType === "diningout") displayName = "dining out";
+    if (foodType === "groceries") displayName = "groceries";
 
     // 2. The Traffic Cop: Where do they go next?
     let nextPage = "";
     
     if (foodType === "groceries") {
-        // Send them to the Aisle Dodger game we just built!
         nextPage = "event-groceries2.html"; 
     } 
     else if (foodType === "fastfood") {
-        // Send them to the Fast Food mini-game (you will create this file next)
         nextPage = "event-fastfood2.html"; 
     } 
     else if (foodType === "diningout") {
-        // Send them to the Dining Out mini-game (you will create this file next)
         nextPage = "event-diningout2.html"; 
     }
 
-    // 3. Show the alert, then go to their specific mini-game!
+    // 3. Show the alert
     gameAlert(
         "You bought " + displayName + " for $" + price + ". <br>You have $" + currentBudget + " left.", 
         nextPage 
