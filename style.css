@@ -112,7 +112,7 @@ body {
 
 /* --- SPECIFIC POSITIONING FOR INDEX.HTML --- */
 #mission-next {
-    right: 60px;       /* Tweak these values specifically for the mission card */
+    right: 90px;       /* Tweak these values specifically for the mission card */
     bottom: 30px;
 }
 
