@@ -643,11 +643,15 @@ function beginScavengerHunt() {
 /* ========================================================
    THE BURGER BUILDER GAME
 ======================================================== */
+/* ========================================================
+   THE BURGER BUILDER GAME
+======================================================== */
 let burgerTimer;
 let burgerTimeLeft = 8;
 let targetRecipe = [];
 let playerStack = [];
 let isBurgerActive = false;
+let canBuild = false; // NEW STATE FLAG: Blocks clicks during the memorization phase
 
 function beginBurgerGame() {
     document.getElementById('game-directions-overlay').style.display = 'none';
@@ -659,17 +663,18 @@ function startBurgerGame() {
     document.getElementById("game-budget").innerText = currentBudget;
     
     isBurgerActive = true;
+    canBuild = false; // Lock clicking instantly as game populates
     burgerTimeLeft = 8;
     playerStack = [];
     document.getElementById('current-burger').innerHTML = "";
     
     // 1. Generate a random 5-layer recipe
     const options = ['Bun', 'Meat', 'Cheese', 'Lettuce'];
-    targetRecipe = ['Bun']; // Always starts with a Bun
+    targetRecipe = ['Bun']; 
     for(let i=0; i<3; i++) {
         targetRecipe.push(options[Math.floor(Math.random() * options.length)]);
     }
-    targetRecipe.push('Bun'); // Always ends with a Bun
+    targetRecipe.push('Bun'); 
 
     // 2. Display the recipe
     const display = document.getElementById('recipe-display');
@@ -678,7 +683,10 @@ function startBurgerGame() {
 
     // 3. Hide the recipe after 3 seconds!
     setTimeout(() => {
-        if(isBurgerActive) display.style.opacity = "0";
+        if(isBurgerActive) {
+            display.style.opacity = "0";
+            canBuild = true; // FIX: Unlocks input only when the ticket disappears!
+        }
     }, 3000);
 
     // 4. Start Countdown
@@ -690,7 +698,8 @@ function startBurgerGame() {
 }
 
 function addIngredient(ing) {
-    if (!isBurgerActive) return;
+    // FIX: Rejects click event if game is inactive OR if recipe is still visible
+    if (!isBurgerActive || !canBuild) return;
 
     playerStack.push(ing);
     
@@ -714,6 +723,7 @@ function addIngredient(ing) {
 
 function endBurgerGame(isWin) {
     isBurgerActive = false;
+    canBuild = false; // Hard locks interaction loop on win/loss window
     clearInterval(burgerTimer);
     
     let currentBudget = parseInt(localStorage.getItem("budget"));
