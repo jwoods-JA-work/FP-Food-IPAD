@@ -982,17 +982,40 @@ function moveSortItem(el) {
     } else {
         // It reached the grocery bag!
         if (currentItemType === 'toss') {
-            updateBudget(-5); // Penalty for junk in bag
-            gameAlert("Oh no! Junk food got into the bag! -$5", "");
+            // 1. Immediately turn off the conveyor mechanics loop
+            isSortActive = false; 
+            
+            // 2. Apply the financial deduction
+            updateBudget(-5); 
+            
+            // 3. Remove the item element so it disappears cleanly
+            el.remove(); 
+            
+            // 4. Trigger the custom engine alert and pass the resumption function
+            gameAlert("Oh no! Junk food got into the bag! -$5", resumeGameAfterAlert);
+            
+        } else {
+            // Good food reached the bag safely
+            el.remove();
+            nextSortItem();
         }
-        el.remove();
-        nextSortItem();
     }
+}
+
+/**
+ * RESUME MECHANIC: This function triggers only when the custom alert's 
+ * "OK" button removes the overlay.
+ */
+function resumeGameAfterAlert() {
+    isSortActive = true;
+    nextSortItem();
 }
 
 // Matches HTML: onclick="handleSort('keep')"
 function handleSort(choice) {
-    if (!isSortActive) return;
+    // Completely blocks user input buttons while the alert is active
+    if (!isSortActive) return; 
+    
     const itemEl = document.getElementById('active-sort-item');
     if (!itemEl) return;
 
@@ -1024,7 +1047,6 @@ function nextSortItem() {
     }
 }
 
-
 function updateBudget(amount) {
     let b = parseInt(localStorage.getItem("budget")) + amount;
     localStorage.setItem("budget", b);
@@ -1036,7 +1058,6 @@ function updateBudget(amount) {
     updateBudgetDisplay();
     checkBudgetStatus();
 }
-
 /* ========================================================
    THE BAGGING RUSH GAME (Fast Food 3)
 ======================================================== */
