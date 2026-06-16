@@ -858,12 +858,21 @@ function endBalanceGame(isWin) {
 /* ========================================================
    CHOICE 3 & NAVIGATION
 ======================================================== */
+/* ========================================================
+   CHOICE 3 & NAVIGATION
+======================================================== */
 function makeChoice3(foodType, price) {
     let b = parseInt(localStorage.getItem("budget")) || 0;
     
-    // 1. Check if the player can actually afford the choice
+    // MOVE FIX UP: Convert the raw value into reader text first!
+    let displayName = foodType; 
+    if (foodType === "fastfood") displayName = "fast food";
+    if (foodType === "diningout") displayName = "dining out";
+    if (foodType === "groceries") displayName = "groceries";
+    
+    // 1. Check if the player can actually afford the choice (Now uses displayName!)
     if (b < price) {
-        gameAlert("You don't have enough money left to buy " + foodType + "!", () => {
+        gameAlert("You don't have enough money left to buy " + displayName + "!", () => {
             window.location.href = "gameover.html";
         });
         return; // Stop the function here so the game doesn't load
@@ -872,13 +881,7 @@ function makeChoice3(foodType, price) {
     // 2. Subtract the price and save
     b -= price;
     localStorage.setItem("budget", b);
-    localStorage.setItem("day3Choice", foodType); // Saves day 3 history choice cleanly
-
-    // FIX: Clean, strict spacing conversion added here too!
-    let displayName = foodType; 
-    if (foodType === "fastfood") displayName = "fast food";
-    if (foodType === "diningout") displayName = "dining out";
-    if (foodType === "groceries") displayName = "groceries";
+    localStorage.setItem("day3Choice", foodType); // Saves raw foodType for system routing
 
     // 3. Define where we are going
     let nextPage = "event-" + foodType + "3.html";
