@@ -100,7 +100,7 @@ body {
     font-size: 45px;
 }
 
-.next-button {
+.directions-card next-button {
     position:absolute;
     width: 80px;
     height: auto;
