@@ -872,10 +872,13 @@ function makeChoice3(foodType, price) {
     // 2. Subtract the price and save
     b -= price;
     localStorage.setItem("budget", b);
+    localStorage.setItem("day3Choice", foodType); // Saves day 3 history choice cleanly
 
-   let displayName = foodType; 
+    // FIX: Clean, strict spacing conversion added here too!
+    let displayName = foodType; 
     if (foodType === "fastfood") displayName = "fast food";
     if (foodType === "diningout") displayName = "dining out";
+    if (foodType === "groceries") displayName = "groceries";
 
     // 3. Define where we are going
     let nextPage = "event-" + foodType + "3.html";
