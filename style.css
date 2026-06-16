@@ -1233,7 +1233,7 @@ body {
 
 /* --- BAGGING RUSH STYLES --- */
 #bagging-game-screen {
-    background-color: #f2f2f2;
+    background-color: #00c0ca;
     width: 100vw; height: 100vh;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
 }
