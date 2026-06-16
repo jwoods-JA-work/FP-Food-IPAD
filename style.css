@@ -1026,7 +1026,7 @@ body {
 #assembly-tray {
     width: 400px;
     height: 250px;
-    background-color: #d1d1d1; /* Metallic tray look */
+    background-color: #00c0ca; /* Metallic tray look */
     border: 8px solid #999;
     border-radius: 15px;
     position: relative;
@@ -1047,7 +1047,7 @@ body {
     line-height: 30px;
     font-weight: bold;
     color: white;
-    font-family: 'Wendy One', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     animation: slideIn 0.2s ease-out;
 }
 
@@ -1068,7 +1068,7 @@ body {
 
 .ing-btn {
     padding: 15px 20px;
-    font-family: 'Wendy One', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 20px;
     border-radius: 10px;
     border: 4px solid #111;
@@ -1136,7 +1136,7 @@ body {
 }
 
 .game-hint {
-    font-family: 'Sanchez', sans-serif;
+    font-family: 'Roboto Condensed', sans-serif;
     color: white;
     font-size: 24px;
     margin-top: 20px;
@@ -1216,7 +1216,7 @@ body {
 
 .sort-btn {
     padding: 20px 60px;
-    font-family: 'Wendy One', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 32px;
     border: 5px solid #111;
     border-radius: 50px;
@@ -1226,7 +1226,7 @@ body {
     transition: transform 0.1s;
 }
 
-.keep { background-color: #28a745; }
+.keep { background-color: #00863d; }
 .toss { background-color: #e74c3c; }
 
 .sort-btn:active { transform: scale(0.9); box-shadow: 0px 0px 0px #111; }
@@ -1265,7 +1265,7 @@ body {
     width: 120px; height: 160px;
     border: 6px solid #333;
     border-radius: 15px;
-    font-family: 'Wendy One', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 20px;
     cursor: pointer;
     transition: transform 0.1s;
@@ -1279,7 +1279,7 @@ body {
 
 /* --- FANCY GARNISH STYLES --- */
 #garnish-game-screen {
-    background-color: #34495e;
+    background-color: #222404d;
     width: 100vw; height: 100vh;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
 }
@@ -1287,7 +1287,7 @@ body {
 #plating-area {
     width: 800px;
     height: 400px;
-    background-color: #2c3e50;
+    background-color: #00889c;
     border: 10px solid #bdc3c7;
     position: relative;
     overflow: hidden;
@@ -1325,15 +1325,15 @@ body {
 }
 
 #drop-btn {
-    background: #d4af37;
-    color: #111;
-    font-family: 'Wendy One', sans-serif;
+    background: #00c0ca;
+    color: #fff;
+    font-family: ' Montserrat', sans-serif;
     font-size: 32px;
     padding: 15px 60px;
     border-radius: 50px;
     border: none;
     cursor: pointer;
-    box-shadow: 0px 6px 0px #917524;
+    box-shadow: 0px 6px 0px #000;
 }
 
 .garnish-falling-anim {
