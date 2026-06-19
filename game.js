@@ -685,7 +685,7 @@ function startBalanceGame() {
 
     balanceAnimationId = requestAnimationFrame(moveSmoothly);
 
-    // Collision Checking (Starts after 1s safety buffer)
+// 5. Collision Checking (Starts after 3s safety buffer)
     setTimeout(() => {
         if (!isBalanceActive) return;
         checkLoop = setInterval(() => {
@@ -701,7 +701,7 @@ function startBalanceGame() {
                 endBalanceGame(false);
             }
         }, 100);
-    }, 1000); 
+    }, 3000); // <-- Changed from 1000 to 3000 (3 seconds of free movement!)
 
     balanceTimer = setInterval(() => {
         balanceTimeLeft--;
