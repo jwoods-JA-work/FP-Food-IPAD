@@ -724,7 +724,7 @@ function moveSmoothly() {
     const trayRect = tray.getBoundingClientRect();
     
     // SPEED DECREASE APPLIED: Changing 0.03 -> 0.005 runs the game 6x slower!
-    balanceAngle += 0.015; 
+    balanceAngle += 0.01; 
     
     let centerX = (trayRect.width / 2) - 50;
     let centerY = (trayRect.height / 2) - 50;
