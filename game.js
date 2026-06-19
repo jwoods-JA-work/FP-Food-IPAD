@@ -12,7 +12,7 @@ function gameAlert(message, nextAction) {
     text.id = "custom-alert-text"; 
     text.innerHTML = message; 
 
-    const btn = document.createElement("button");
+    const btn = document.createElement("button"); 
     btn.id = "custom-alert-btn";
     btn.innerText = "OK";
     
@@ -60,7 +60,6 @@ function day1Page() {
 let timeLeft = 20;
 let timerInterval;
 
-// Call this function whenever you transition to the quiz screen!
 function startQuizTimer() {
     if(typeof shuffleAnswers === "function") shuffleAnswers();
     timeLeft = 20;
@@ -81,7 +80,6 @@ function updateTimer() {
     }
 }
 
-// Runs when they click an answer
 function checkAnswer(isCorrect) {
     clearInterval(timerInterval);
     if (isCorrect) {
@@ -95,23 +93,16 @@ function checkAnswer(isCorrect) {
 }
 
 function shuffleAnswers() {
-    // Find the container holding the answers
     const answersRow = document.querySelector('.answers-row');
-    
-    // Grab all the buttons inside it and turn them into an array
+    if(!answersRow) return;
     const buttons = Array.from(answersRow.children);
-    
-    // Mix up the array randomly
     buttons.sort(() => Math.random() - 0.5);
-    
-    // Put the buttons back into the container in the new mixed-up order!
-    // (In JavaScript, appending an element that already exists just moves it)
     buttons.forEach(button => {
         answersRow.appendChild(button);
     });
 }
 
- // This runs automatically whenever a page loads
+// ROUTER COUPLING FIX: This runs automatically whenever a page loads
 window.onload = function() {
     updateBudgetDisplay();
 
@@ -119,10 +110,12 @@ window.onload = function() {
     if (document.getElementById('game-board')) startDodgerGame();
     if (document.getElementById('drive-thru-board')) startFastFoodGame();
     if (document.getElementById('tip-game-container')) startTipGame();
+    
+    // Crucial entry point link: If the balance zone element exists, run its setup loop automatically
+    if (document.getElementById('balance-zone')) startBalanceGame();
 };
 
 function makeChoice1(foodType, price) {
-    // 1. Math and Memory
     let currentBudget = parseInt(localStorage.getItem("budget"));
     currentBudget = currentBudget - price;
     localStorage.setItem("budget", currentBudget);
@@ -133,31 +126,22 @@ function makeChoice1(foodType, price) {
     }
     localStorage.setItem("day1Choice", foodType);
 
-    // FIX: Clean, strict spacing cleanup variables
     let displayName = foodType; 
     if (foodType === "fastfood") displayName = "fast food";
     if (foodType === "diningout") displayName = "dining out";
     if (foodType === "groceries") displayName = "groceries";
 
-    // 2. The Traffic Cop: Where do they go next?
     let nextPage = "";
+    if (foodType === "groceries") nextPage = "event-groceries1.html"; 
+    else if (foodType === "fastfood") nextPage = "event-fastfood1.html"; 
+    else if (foodType === "diningout") nextPage = "event-diningout1.html"; 
 
-    if (foodType === "groceries") {
-        nextPage = "event-groceries1.html"; 
-    } 
-    else if (foodType === "fastfood") {
-        nextPage = "event-fastfood1.html"; 
-    } 
-    else if (foodType === "diningout") {
-        nextPage = "event-diningout1.html"; 
-    }
-
-    // 3. Show the alert
     gameAlert(
         "You bought " + displayName + " for $" + price + ". <br>You have $" + currentBudget + " left.", 
         nextPage 
     );
 }
+
 /* ========================================================
    THE AISLE DODGER GAME
 ======================================================== */
@@ -165,7 +149,6 @@ let dodgerTimer;
 let spawnLoop;
 let dodgerLoop;
 let timeLeftDodger = 20;
-let currentBudget = 60;
 let isGameActive = false;
 let fallingItems = [];
 
@@ -201,9 +184,8 @@ function startDodgerGame() {
     }, 1000);
 
     spawnLoop = setInterval(spawnItem, 600);
-    updateGame(); // Start animation
+    updateGame();
 }
-
 
 function spawnItem() {
     if (!isGameActive) return;
@@ -212,24 +194,21 @@ function spawnItem() {
     const item = document.createElement('div');
     item.className = 'falling-item';
     
-    // 60% chance for an Impulse Buy (Bad), 40% chance for a Deal (Good)
     let isGood = Math.random() > 0.6; 
     item.innerHTML = isGood ? (Math.random() > 0.5 ? '🥦' : '🍎') : (Math.random() > 0.5 ? '🍫' : '🍩');
     item.dataset.type = isGood ? 'good' : 'bad';
     
-    // Pick a random spot along the width to drop it
     let xPos = Math.random() * (board.offsetWidth - 40);
     item.style.left = xPos + 'px';
     item.style.top = '-50px';
     
     board.appendChild(item);
     
-    // Add it to our tracking array
     fallingItems.push({ 
         element: item, 
         y: -50, 
         type: item.dataset.type,
-        speed: 8 + Math.random() * 3 // Random drop speed between 4 and 7
+        speed: 8 + Math.random() * 3
     });
 }
 
@@ -249,7 +228,6 @@ function updateGame() {
 
         let itemRect = itemObj.element.getBoundingClientRect();
 
-        // Collision Detection
         if (itemRect.bottom > cart.top && itemRect.top < cart.bottom &&
             itemRect.right > cart.left && itemRect.left < cart.right) {
             
@@ -264,7 +242,6 @@ function updateGame() {
             fallingItems.splice(i, 1);
         }
     }
-    // FIX: Assign the loop ID so it can be cancelled later
     dodgerLoop = requestAnimationFrame(updateGame);
 }
 
@@ -281,9 +258,8 @@ function endDodgerGame() {
     isGameActive = false;
     clearInterval(dodgerTimer);
     clearInterval(spawnLoop);
-    cancelAnimationFrame(dodgerLoop); // Now this works
+    cancelAnimationFrame(dodgerLoop);
     
-    // FIX: Get the actual final total from storage
     let finalTotal = localStorage.getItem("budget");
     
     gameAlert(
@@ -296,57 +272,45 @@ function endDodgerGame() {
    THE DRIVE-THRU TOSS GAME
 ======================================================== */
 let carPos = 0;
-let carDirection = 1; // 1 = right, -1 = left
-let carSpeed = 12;     // Speed of the car
+let carDirection = 1; 
+let carSpeed = 12;     
 let driveLoop;
 let hasTossed = false;
 
 function startFastFoodGame() {
-    // 1. Setup Budget
     let currentBudget = parseInt(localStorage.getItem("budget")) || 60;
     document.getElementById("game-budget").innerText = currentBudget;
-    
-    // 2. Start the Car Engine
     driveLoop = requestAnimationFrame(moveCar);
 }
 
 function moveCar() {
-    if (hasTossed) return; // Stop the car so we can see where the bag landed!
+    if (hasTossed) return; 
 
     const car = document.getElementById('moving-car');
-    
-    // Move the car
     carPos += (carSpeed * carDirection);
 
-    // If it hits the right edge (600 board width - 200 car width = 400)
     if (carPos >= 400) {
-        carDirection = -1; // Reverse left
-        carSpeed = 12; // Randomize speed coming back!
+        carDirection = -1; 
+        carSpeed = 12; 
     }
-    // If it hits the left edge
     if (carPos <= 0) {
-        carDirection = 1; // Reverse right
-        carSpeed = 12; // Randomize speed coming back!
+        carDirection = 1; 
+        carSpeed = 12; 
     }
 
     car.style.left = carPos + 'px';
-
-    // Loop the animation
     driveLoop = requestAnimationFrame(moveCar);
 }
 
 function tossBag() {
-    if (hasTossed) return; // Only allow one throw!
+    if (hasTossed) return; 
     hasTossed = true;
 
-    // 1. Disable the button
     document.getElementById('toss-btn').disabled = true;
 
-    // 2. Trigger the CSS flying animation
     const bag = document.getElementById('food-bag');
     bag.classList.add('bag-flying');
 
-    // 3. Wait exactly 0.5 seconds (500ms) for the bag to "land", then check collision
     setTimeout(() => {
         checkTossHit();
     }, 500);
@@ -374,18 +338,15 @@ function checkTossHit() {
 /* ========================================================
    THE TIP CALCULATOR GAME
 ======================================================== */
-let tipPos = 0;          // Tracks percentage (0 to 100)
-let tipDirection = 1;    // 1 moving right, -1 moving left
-let tipSpeed = 3;      // How fast the percentage changes
+let tipPos = 0;          
+let tipDirection = 1;    
+let tipSpeed = 3;      
 let tipLoop;
 let hasStoppedTip = false;
 
 function startTipGame() {
-    // 1. Setup Budget
     let currentBudget = parseInt(localStorage.getItem("budget")) || 60;
     document.getElementById("game-budget").innerText = currentBudget;
-    
-    // 2. Start the bouncing animation
     tipLoop = requestAnimationFrame(moveTipPointer);
 }
 
@@ -393,11 +354,8 @@ function moveTipPointer() {
     if (hasStoppedTip) return;
 
     const pointer = document.getElementById('tip-pointer');
-    
-    // Move the pointer's percentage
     tipPos += (tipSpeed * tipDirection);
 
-    // Bounce off the edges (0% and 100%)
     if (tipPos >= 100) {
         tipPos = 100;
         tipDirection = -1;
@@ -406,9 +364,7 @@ function moveTipPointer() {
         tipDirection = 1;
     }
 
-    // Apply the position visually
     pointer.style.left = tipPos + '%';
-
     tipLoop = requestAnimationFrame(moveTipPointer);
 }
 
@@ -416,13 +372,9 @@ function stopTipSlider() {
     if (hasStoppedTip) return;
     hasStoppedTip = true;
 
-    // Disable the button
     document.getElementById('stop-tip-btn').disabled = true;
 
-    // Our green target zone in CSS is from 60% to 72%
     let isHit = (tipPos >= 60 && tipPos <= 72);
-
-    // Update Budget
     let currentBudget = parseInt(localStorage.getItem("budget"));
 
     if (isHit) {
@@ -446,7 +398,6 @@ function stopTipSlider() {
 }
 
 function makeChoice2(foodType, price) {
-    // 1. Math and Memory
     let currentBudget = parseInt(localStorage.getItem("budget"));
     currentBudget = currentBudget - price;
     localStorage.setItem("budget", currentBudget);
@@ -455,28 +406,18 @@ function makeChoice2(foodType, price) {
         gameAlert("You spent your last dollar! Game Over.", "gameover.html");
         return;
     }
-    localStorage.setItem("day2Choice", foodType); // Fixed key name to day2Choice here as well!
+    localStorage.setItem("day2Choice", foodType); 
 
-    // FIX: Added the clean formatting block here too!
     let displayName = foodType; 
     if (foodType === "fastfood") displayName = "fast food";
     if (foodType === "diningout") displayName = "dining out";
     if (foodType === "groceries") displayName = "groceries";
 
-    // 2. The Traffic Cop: Where do they go next?
     let nextPage = "";
-    
-    if (foodType === "groceries") {
-        nextPage = "event-groceries2.html"; 
-    } 
-    else if (foodType === "fastfood") {
-        nextPage = "event-fastfood2.html"; 
-    } 
-    else if (foodType === "diningout") {
-        nextPage = "event-diningout2.html"; 
-    }
+    if (foodType === "groceries") nextPage = "event-groceries2.html"; 
+    else if (foodType === "fastfood") nextPage = "event-fastfood2.html"; 
+    else if (foodType === "diningout") nextPage = "event-diningout2.html"; 
 
-    // 3. Show the alert
     gameAlert(
         "You bought " + displayName + " for $" + price + ". <br>You have $" + currentBudget + " left.", 
         nextPage 
@@ -487,11 +428,10 @@ function makeChoice2(foodType, price) {
    THE SHELF SCAVENGER HUNT GAME
 ======================================================== */
 let scavengeTimer;
-let scavengeTimeLeft = 10; // Only 10 seconds!
+let scavengeTimeLeft = 10; 
 let targetsFound = 0;
 let isScavengeActive = false;
 
-// The pool of possible items
 const healthyItems = ['🍎', '🍞', '🥛', '🥚', '🧀', '🥦', '🍌', '🍗'];
 const junkItems = ['🍫', '🍩', '🍪', '🥤', '🍕', '🍟', '🍦', '🍬'];
 
@@ -506,56 +446,38 @@ function startScavengerGame() {
 
     const shelf = document.getElementById("shelf-board");
     const listUI = document.getElementById("target-list-ui");
-    shelf.innerHTML = ""; // Clear shelf
-    listUI.innerHTML = ""; // Clear list
+    shelf.innerHTML = ""; 
+    listUI.innerHTML = ""; 
 
-    // 1. Pick 3 random target items from the healthy list
     let shuffledHealthy = healthyItems.sort(() => 0.5 - Math.random());
     let targetItems = shuffledHealthy.slice(0, 3);
 
-    // 2. Put the targets on the shopping list UI
     targetItems.forEach(item => {
         let li = document.createElement("li");
         li.innerText = item;
-        li.id = "list-" + item; // We give it an ID so we can cross it off later!
+        li.id = "list-" + item; 
         listUI.appendChild(li);
     });
 
-    // 3. Create the pool of items to scatter on the shelf
-    // We include our 3 targets, plus a bunch of random junk food distractions
     let itemsToScatter = [...targetItems];
     for (let i = 0; i < 45; i++) {
-        // Pick a random item from the junk list to clutter the shelf
         let randomJunk = junkItems[Math.floor(Math.random() * junkItems.length)];
         itemsToScatter.push(randomJunk);
-
     }
 
-    // Shuffle everything so the targets are hidden among the junk
     itemsToScatter.sort(() => 0.5 - Math.random());
 
-    // 4. Scatter them on the shelf!
     itemsToScatter.forEach(item => {
         let element = document.createElement("div");
         element.className = "grocery-item";
         element.innerText = item;
         
-        // Randomly position on the shelf (Width 700, Height 350)
         element.style.left = Math.floor(Math.random() * 630) + "px";
         element.style.top = Math.floor(Math.random() * 280) + "px";
 
-        // Check if this specific element is one of our targets
         let isTarget = targetItems.includes(item);
+        element.style.zIndex = isTarget ? "10" : "1";
 
-       // If it's a target, bring it to the front!
-if (isTarget) {
-    element.style.zIndex = "10"; 
-} else {
-    element.style.zIndex = "1";
-}
-
-
-        // Add the click event
         element.onclick = function() {
             clickGroceryItem(this, item, isTarget);
         };
@@ -563,7 +485,6 @@ if (isTarget) {
         shelf.appendChild(element);
     });
 
-    // 5. Start the clock
     scavengeTimer = setInterval(() => {
         if (!isScavengeActive) return;
         
@@ -571,7 +492,7 @@ if (isTarget) {
         document.getElementById('game-time').innerText = scavengeTimeLeft;
         
         if (scavengeTimeLeft <= 0) {
-            endScavengerGame(false); // They ran out of time!
+            endScavengerGame(false); 
         }
     }, 1000);
 }
@@ -582,25 +503,16 @@ function clickGroceryItem(element, item, isTarget) {
     let currentBudget = parseInt(localStorage.getItem("budget"));
 
     if (isTarget) {
-        // CORRECT CLICK!
-        element.style.display = "none"; // Hide the item from the shelf
-        
-        // Cross it off the shopping list
+        element.style.display = "none"; 
         document.getElementById("list-" + item).classList.add("found-item");
-        
-        // Prevent clicking the same target twice if duplicates exist
         element.onclick = null; 
-        
         targetsFound++;
         
         if (targetsFound >= 3) {
-            endScavengerGame(true); // They found all 3!
+            endScavengerGame(true); 
         }
     } else {
-        // WRONG CLICK! (Impulse Buy)
         element.classList.add("wrong-click");
-        
-        // Remove the animation class after 0.3s so it can flash again if clicked
         setTimeout(() => element.classList.remove("wrong-click"), 300);
         
         currentBudget -= 3;
@@ -633,16 +545,10 @@ function endScavengerGame(isWin) {
 }
 
 function beginScavengerHunt() {
-    // 1. Hide the directions overlay
     document.getElementById('game-directions-overlay').style.display = 'none';
-    
-    // 2. Start the game and the timer!
     startScavengerGame();
 }
 
-/* ========================================================
-   THE BURGER BUILDER GAME
-======================================================== */
 /* ========================================================
    THE BURGER BUILDER GAME
 ======================================================== */
@@ -651,7 +557,7 @@ let burgerTimeLeft = 8;
 let targetRecipe = [];
 let playerStack = [];
 let isBurgerActive = false;
-let canBuild = false; // NEW STATE FLAG: Blocks clicks during the memorization phase
+let canBuild = false; 
 
 function beginBurgerGame() {
     document.getElementById('game-directions-overlay').style.display = 'none';
@@ -663,12 +569,11 @@ function startBurgerGame() {
     document.getElementById("game-budget").innerText = currentBudget;
     
     isBurgerActive = true;
-    canBuild = false; // Lock clicking instantly as game populates
+    canBuild = false; 
     burgerTimeLeft = 8;
     playerStack = [];
     document.getElementById('current-burger').innerHTML = "";
     
-    // 1. Generate a random 5-layer recipe
     const options = ['Bun', 'Meat', 'Cheese', 'Lettuce'];
     targetRecipe = ['Bun']; 
     for(let i=0; i<3; i++) {
@@ -676,20 +581,17 @@ function startBurgerGame() {
     }
     targetRecipe.push('Bun'); 
 
-    // 2. Display the recipe
     const display = document.getElementById('recipe-display');
     display.innerHTML = targetRecipe.join("<br>");
     display.style.opacity = "1";
 
-    // 3. Hide the recipe after 3 seconds!
     setTimeout(() => {
         if(isBurgerActive) {
             display.style.opacity = "0";
-            canBuild = true; // FIX: Unlocks input only when the ticket disappears!
+            canBuild = true; 
         }
     }, 3000);
 
-    // 4. Start Countdown
     burgerTimer = setInterval(() => {
         burgerTimeLeft--;
         document.getElementById('game-time').innerText = burgerTimeLeft;
@@ -698,24 +600,20 @@ function startBurgerGame() {
 }
 
 function addIngredient(ing) {
-    // FIX: Rejects click event if game is inactive OR if recipe is still visible
     if (!isBurgerActive || !canBuild) return;
 
     playerStack.push(ing);
     
-    // Add visual layer to tray
     const layer = document.createElement("div");
     layer.className = `burger-layer layer-${ing}`;
     layer.innerText = ing;
     document.getElementById('current-burger').appendChild(layer);
 
-    // Check if they messed up the order immediately
     if (playerStack[playerStack.length - 1] !== targetRecipe[playerStack.length - 1]) {
         endBurgerGame(false);
         return;
     }
 
-    // Check if burger is finished
     if (playerStack.length === targetRecipe.length) {
         endBurgerGame(true);
     }
@@ -723,7 +621,7 @@ function addIngredient(ing) {
 
 function endBurgerGame(isWin) {
     isBurgerActive = false;
-    canBuild = false; // Hard locks interaction loop on win/loss window
+    canBuild = false; 
     clearInterval(burgerTimer);
     
     let currentBudget = parseInt(localStorage.getItem("budget"));
@@ -739,7 +637,6 @@ function endBurgerGame(isWin) {
     }
 }
 
-
 /* ========================================================
    THE BALANCE THE TRAY GAME (Fixed & Optimized)
 ======================================================== */
@@ -750,7 +647,19 @@ let isBalanceActive = false;
 let mouseX = 0;
 let mouseY = 0;
 let balanceAngle = 0;
-let balanceAnimationId; // Store the animation ID to properly stop it
+let balanceAnimationId; 
+
+// Input Tracking Function Named For Unbinding
+function updateCoordinates(e) {
+    if (!isBalanceActive) return;
+    if (e.touches && e.touches.length > 0) {
+        mouseX = e.touches[0].clientX;
+        mouseY = e.touches[0].clientY;
+    } else {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    }
+}
 
 function beginBalanceGame() {
     document.getElementById('game-directions-overlay').style.display = 'none';
@@ -761,27 +670,12 @@ function startBalanceGame() {
     let currentBudget = parseInt(localStorage.getItem("budget")) || 60;
     document.getElementById("game-budget").innerText = currentBudget;
     
-    // 1. Reset State
     isBalanceActive = true;
     balanceTimeLeft = 10;
     balanceAngle = 0;
     document.getElementById('game-time').innerText = balanceTimeLeft;
 
-    const zone = document.getElementById('balance-zone');
-
-    // 2. Input Tracking Function
-    function updateCoordinates(e) {
-        if (!isBalanceActive) return;
-        if (e.touches && e.touches.length > 0) {
-            mouseX = e.touches[0].clientX;
-            mouseY = e.touches[0].clientY;
-        } else {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        }
-    }
-
-    // 3. Attach Listeners
+    // Attach Listeners
     window.addEventListener('mousemove', updateCoordinates);
     window.addEventListener('touchstart', updateCoordinates);
     window.addEventListener('touchmove', (e) => {
@@ -789,48 +683,26 @@ function startBalanceGame() {
         if (isBalanceActive) e.preventDefault();
     }, { passive: false });
 
-    // 4. Smooth Movement Engine
-    function moveSmoothly() {
-        if (!isBalanceActive) return;
-
-        const tray = document.getElementById('tray-surface').getBoundingClientRect();
-        
-        // Update the path angle
-        balanceAngle += 0.03; 
-        
-        let centerX = (tray.width / 2) - 50;
-        let centerY = (tray.height / 2) - 50;
-        
-        // Calculate new X and Y based on an elliptical path
-        let newX = centerX + (Math.cos(balanceAngle) * (tray.width / 3));
-        let newY = centerY + (Math.sin(balanceAngle * 0.8) * (tray.height / 3));
-
-        zone.style.left = newX + "px";
-        zone.style.top = newY + "px";
-
-        balanceAnimationId = requestAnimationFrame(moveSmoothly);
-    }
-
     balanceAnimationId = requestAnimationFrame(moveSmoothly);
 
-    // 5. Collision Checking (Starts after 1s safety buffer)
+    // Collision Checking (Starts after 1s safety buffer)
     setTimeout(() => {
         if (!isBalanceActive) return;
         checkLoop = setInterval(() => {
+            const zone = document.getElementById('balance-zone');
+            if(!zone) return;
             let zRect = zone.getBoundingClientRect();
             let cX = zRect.left + (zRect.width / 2);
             let cY = zRect.top + (zRect.height / 2);
             
             let distance = Math.sqrt(Math.pow(mouseX - cX, 2) + Math.pow(mouseY - cY, 2));
             
-            // Fail if distance is too far (60px buffer for fingers)
             if (distance > 60) {
                 endBalanceGame(false);
             }
         }, 100);
     }, 1000); 
 
-    // 6. Countdown Timer
     balanceTimer = setInterval(() => {
         balanceTimeLeft--;
         const timeDisplay = document.getElementById('game-time');
@@ -842,15 +714,39 @@ function startBalanceGame() {
     }, 1000);
 }
 
+function moveSmoothly() {
+    if (!isBalanceActive) return;
+
+    const zone = document.getElementById('balance-zone');
+    const tray = document.getElementById('tray-surface');
+    if(!zone || !tray) return;
+
+    const trayRect = tray.getBoundingClientRect();
+    
+    // SPEED DECREASE APPLIED: Changing 0.03 -> 0.005 runs the game 6x slower!
+    balanceAngle += 0.005; 
+    
+    let centerX = (trayRect.width / 2) - 50;
+    let centerY = (trayRect.height / 2) - 50;
+    
+    let newX = centerX + (Math.cos(balanceAngle) * (trayRect.width / 3));
+    let newY = centerY + (Math.sin(balanceAngle * 0.8) * (trayRect.height / 3));
+
+    zone.style.left = newX + "px";
+    zone.style.top = newY + "px";
+
+    balanceAnimationId = requestAnimationFrame(moveSmoothly);
+}
+
 function endBalanceGame(isWin) {
-    // 1. Stop everything immediately
     isBalanceActive = false;
     clearInterval(balanceTimer);
     clearInterval(checkLoop);
     cancelAnimationFrame(balanceAnimationId);
     
-    // 2. Clean up memory/listeners
-    window.removeEventListener('mousemove', null); 
+    // Proper structural garbage cleaning of window events
+    window.removeEventListener('mousemove', updateCoordinates); 
+    window.removeEventListener('touchstart', updateCoordinates); 
     
     let currentBudget = parseInt(localStorage.getItem("budget"));
 
@@ -868,46 +764,38 @@ function endBalanceGame(isWin) {
 /* ========================================================
    CHOICE 3 & NAVIGATION
 ======================================================== */
-/* ========================================================
-   CHOICE 3 & NAVIGATION
-======================================================== */
 function makeChoice3(foodType, price) {
     let b = parseInt(localStorage.getItem("budget")) || 0;
     
-    // MOVE FIX UP: Convert the raw value into reader text first!
     let displayName = foodType; 
     if (foodType === "fastfood") displayName = "fast food";
     if (foodType === "diningout") displayName = "dining out";
     if (foodType === "groceries") displayName = "groceries";
     
-    // 1. Check if the player can actually afford the choice (Now uses displayName!)
     if (b < price) {
         gameAlert("You don't have enough money left to buy " + displayName + "!", () => {
             window.location.href = "gameover.html";
         });
-        return; // Stop the function here so the game doesn't load
+        return; 
     }
 
-    // 2. Subtract the price and save
     b -= price;
     localStorage.setItem("budget", b);
-    localStorage.setItem("day3Choice", foodType); // Saves raw foodType for system routing
+    localStorage.setItem("day3Choice", foodType); 
 
-    // 3. Define where we are going
     let nextPage = "event-" + foodType + "3.html";
     
-    // 4. Proceed to the mini-game
     gameAlert(
         "You bought " + displayName + " for $" + price + ". <br>Remaining Budget: $" + b, 
         nextPage
     );
 }
+
 /* ---------------------------
    FINAL OUTCOME LOGIC
 ----------------------------*/
 function finishDay3(message) {
     let finalBudget = parseInt(localStorage.getItem("budget"));
-    
     if (finalBudget > 0) {
         gameAlert(message + "<br><br><b>Final Budget: $" + finalBudget + "</b>", "victory.html");
     } else {
@@ -924,7 +812,6 @@ function checkBudgetStatus() {
     return false;
 }
 
-
 /* ========================================================
    THE CHECKOUT SORT GAME (Groceries 3)
 ======================================================== */
@@ -933,7 +820,6 @@ let isSortActive = false;
 let currentItemType = ""; 
 let itemSpeed = 10;
 
-// Matches HTML: onclick="beginSortGame()"
 function beginSortGame() {
     const overlay = document.getElementById('game-directions-overlay');
     if(overlay) overlay.style.display = 'none';
@@ -947,11 +833,9 @@ function beginSortGame() {
 }
 
 function updateSortUI() {
-    // Matches HTML ID: items-count
     const countEl = document.getElementById('items-count');
     if(countEl) countEl.innerText = sortItemsLeft;
     
-    // Updates the budget on screen
     const budgetEl = document.getElementById('game-budget');
     if(budgetEl) budgetEl.innerText = localStorage.getItem("budget") || 60;
 }
@@ -976,7 +860,7 @@ function spawnSortItem() {
     itemEl.id = "active-sort-item";
     itemEl.className = "sort-item";
     itemEl.innerText = choice.emoji;
-    itemEl.style.left = "800px"; // Start at far right
+    itemEl.style.left = "800px"; 
 
     conveyor.innerHTML = ""; 
     conveyor.appendChild(itemEl);
@@ -989,56 +873,37 @@ function moveSortItem(el) {
 
     let pos = parseFloat(el.style.left);
     
-    // Items move from Right to Left toward the bag
     if (pos > 80) { 
         el.style.left = (pos - itemSpeed) + "px";
         requestAnimationFrame(() => moveSortItem(el));
     } else {
-        // It reached the grocery bag!
         if (currentItemType === 'toss') {
-            // 1. Immediately turn off the conveyor mechanics loop
             isSortActive = false; 
-            
-            // 2. Apply the financial deduction
             updateBudget(-5); 
-            
-            // 3. Remove the item element so it disappears cleanly
             el.remove(); 
-            
-            // 4. Trigger the custom engine alert and pass the resumption function
             gameAlert("Oh no! Junk food got into the bag! -$5", resumeGameAfterAlert);
-            
         } else {
-            // Good food reached the bag safely
             el.remove();
             nextSortItem();
         }
     }
 }
 
-/**
- * RESUME MECHANIC: This function triggers only when the custom alert's 
- * "OK" button removes the overlay.
- */
 function resumeGameAfterAlert() {
     isSortActive = true;
     nextSortItem();
 }
 
-// Matches HTML: onclick="handleSort('keep')"
 function handleSort(choice) {
-    // Completely blocks user input buttons while the alert is active
     if (!isSortActive) return; 
     
     const itemEl = document.getElementById('active-sort-item');
     if (!itemEl) return;
 
     if (choice === currentItemType) {
-        // Correct! Remove it before it hits the bag
         itemEl.remove();
         nextSortItem();
     } else {
-        // Mistake
         updateBudget(-3);
         itemEl.classList.add('wrong-flash');
         setTimeout(() => {
@@ -1056,7 +921,7 @@ function nextSortItem() {
         isSortActive = false;
         finishDay3("You sorted your groceries.");    
     } else {
-        itemSpeed += 0.05; // Slightly faster
+        itemSpeed += 0.05; 
         spawnSortItem();
     }
 }
@@ -1065,13 +930,13 @@ function updateBudget(amount) {
     let b = parseInt(localStorage.getItem("budget")) + amount;
     localStorage.setItem("budget", b);
     
-    // UI Feedback
     const gBudget = document.getElementById('game-budget');
     if(gBudget) gBudget.innerText = b; 
     
     updateBudgetDisplay();
     checkBudgetStatus();
 }
+
 /* ========================================================
    THE BAGGING RUSH GAME (Fast Food 3)
 ======================================================== */
@@ -1097,7 +962,7 @@ function spawnChuteItem() {
     
     const item = document.getElementById('chute-item');
     item.style.left = "-100px";
-    item.style.borderColor = currentColor; // The border tells the player which bag to pick
+    item.style.borderColor = currentColor; 
     
     moveChuteItem();
 }
@@ -1112,7 +977,6 @@ function moveChuteItem() {
         item.style.left = (pos + chuteSpeed) + "px";
         baggingLoop = requestAnimationFrame(moveChuteItem);
     } else {
-        // Player missed the item!
         updateBaggingBudget(-2);
         spawnChuteItem();
     }
@@ -1125,7 +989,7 @@ function checkBag(bagColor) {
     if (bagColor === currentColor) {
         itemsBagged++;
         document.getElementById('items-bagged').innerText = itemsBagged;
-        chuteSpeed += 0.1; // Get faster
+        chuteSpeed += 0.1; 
     } else {
         updateBaggingBudget(-3);
     }
@@ -1178,7 +1042,7 @@ function animatePlate() {
 
 function dropGarnish() {
     if (!garnishActive) return;
-    garnishActive = false; // Stop the plate
+    garnishActive = false; 
     cancelAnimationFrame(garnishLoop);
 
     const garnish = document.getElementById('falling-garnish');
