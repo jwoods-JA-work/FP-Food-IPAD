@@ -739,17 +739,25 @@ function moveSmoothly() {
 }
 
 function endBalanceGame(isWin) {
+    // SAFETY GUARD: If the game has already ended, immediately drop out!
+    // This stops the infinite looping alert bug.
+    if (!isBalanceActive) return; 
+    
+    // 1. Instantly flip the state flag so no more loops can call this function
     isBalanceActive = false;
+    
+    // 2. Clear all intervals and loops cleanly
     clearInterval(balanceTimer);
     clearInterval(checkLoop);
     cancelAnimationFrame(balanceAnimationId);
     
-    // Proper structural garbage cleaning of window events
+    // 3. Clean up memory/listeners
     window.removeEventListener('mousemove', updateCoordinates); 
     window.removeEventListener('touchstart', updateCoordinates); 
     
     let currentBudget = parseInt(localStorage.getItem("budget"));
 
+    // 4. Trigger the single alert
     if (isWin) {
         currentBudget += 5;
         localStorage.setItem("budget", currentBudget);
