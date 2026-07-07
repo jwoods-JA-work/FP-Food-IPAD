@@ -111,8 +111,12 @@ window.onload = function() {
     if (document.getElementById('drive-thru-board')) startFastFoodGame();
     if (document.getElementById('tip-game-container')) startTipGame();
     
-    // Crucial entry point link: If the balance zone element exists, run its setup loop automatically
-    if (document.getElementById('balance-zone')) startBalanceGame();
+    // FIXED: Removed startBalanceGame() from running on load automatically!
+    if (document.getElementById('balance-zone')) {
+        // Just sync up the display interface data safely on load instead
+        let currentBudget = parseInt(localStorage.getItem("budget")) || 60;
+        document.getElementById("game-budget").innerText = currentBudget;
+    }
 };
 
 function makeChoice1(foodType, price) {
@@ -765,13 +769,11 @@ function endBalanceGame(isWin) {
     if (isWin) {
         currentBudget += 5;
         localStorage.setItem("budget", currentBudget);
-        alert("STEADY HANDS! 🍷\nYou delivered the meal perfectly. $5 bonus tip!");
-        window.location.href = "day3.html";
+         gameAlert("STEADY HANDS! 🍷<br>You delivered the meal perfectly. $5 bonus tip!", "day3.html");        window.location.href = "day3.html";
     } else {
         currentBudget -= 10;
         localStorage.setItem("budget", currentBudget);
-        alert("CRASH! 💥\nYou dropped the tray! Pay $10 for broken dishes.");
-        window.location.href = "day3.html";
+         gameAlert("CRASH! 💥<br>You dropped the tray! Pay $10 for broken dishes.", "day3.html");        window.location.href = "day3.html";
     }
 }
 
