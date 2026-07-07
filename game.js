@@ -769,11 +769,11 @@ function endBalanceGame(isWin) {
     if (isWin) {
         currentBudget += 5;
         localStorage.setItem("budget", currentBudget);
-         gameAlert("STEADY HANDS! 🍷<br>You delivered the meal perfectly. $5 bonus tip!", "day3.html");        window.location.href = "day3.html";
+         gameAlert("STEADY HANDS! 🍷<br>You delivered the meal perfectly. $5 bonus tip!", "day3.html");
     } else {
         currentBudget -= 10;
         localStorage.setItem("budget", currentBudget);
-         gameAlert("CRASH! 💥<br>You dropped the tray! Pay $10 for broken dishes.", "day3.html");        window.location.href = "day3.html";
+         gameAlert("CRASH! 💥<br>You dropped the tray! Pay $10 for broken dishes.", "day3.html");     
     }
 }
 
