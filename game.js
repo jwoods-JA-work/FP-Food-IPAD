@@ -636,7 +636,6 @@ function endBurgerGame(isWin) {
         gameAlert("ORDER WRONG! ❌<br>You wasted ingredients and had to pay $3 out of pocket.", "day3.html");
     }
 }
-
 /* ========================================================
    THE BALANCE THE TRAY GAME (Fixed & Optimized)
 ======================================================== */
@@ -661,8 +660,12 @@ function updateCoordinates(e) {
     }
 }
 
+// CALLED BY THE BUTTON CLICK
 function beginBalanceGame() {
+    // 1. Hide the directions screen
     document.getElementById('game-directions-overlay').style.display = 'none';
+    
+    // 2. Fire up the gameplay loop
     startBalanceGame();
 }
 
@@ -683,9 +686,17 @@ function startBalanceGame() {
         if (isBalanceActive) e.preventDefault();
     }, { passive: false });
 
+    // Set initial target positions so the ball doesn't instantly think it's off-screen
+    const zone = document.getElementById('balance-zone');
+    if (zone) {
+        let zRect = zone.getBoundingClientRect();
+        mouseX = zRect.left + (zRect.width / 2);
+        mouseY = zRect.top + (zRect.height / 2);
+    }
+
     balanceAnimationId = requestAnimationFrame(moveSmoothly);
 
-// 5. Collision Checking (Starts after 3s safety buffer)
+    // Collision Checking (Starts after 3s safety buffer)
     setTimeout(() => {
         if (!isBalanceActive) return;
         checkLoop = setInterval(() => {
@@ -701,7 +712,7 @@ function startBalanceGame() {
                 endBalanceGame(false);
             }
         }, 100);
-    }, 3000); // <-- Changed from 1000 to 3000 (3 seconds of free movement!)
+    }, 3000); // 3 seconds of free movement!
 
     balanceTimer = setInterval(() => {
         balanceTimeLeft--;
@@ -723,7 +734,6 @@ function moveSmoothly() {
 
     const trayRect = tray.getBoundingClientRect();
     
-    // SPEED DECREASE APPLIED: Changing 0.03 -> 0.005 runs the game 6x slower!
     balanceAngle += 0.01; 
     
     let centerX = (trayRect.width / 2) - 50;
@@ -739,33 +749,29 @@ function moveSmoothly() {
 }
 
 function endBalanceGame(isWin) {
-    // SAFETY GUARD: If the game has already ended, immediately drop out!
-    // This stops the infinite looping alert bug.
     if (!isBalanceActive) return; 
     
-    // 1. Instantly flip the state flag so no more loops can call this function
     isBalanceActive = false;
     
-    // 2. Clear all intervals and loops cleanly
     clearInterval(balanceTimer);
     clearInterval(checkLoop);
     cancelAnimationFrame(balanceAnimationId);
     
-    // 3. Clean up memory/listeners
     window.removeEventListener('mousemove', updateCoordinates); 
     window.removeEventListener('touchstart', updateCoordinates); 
     
-    let currentBudget = parseInt(localStorage.getItem("budget"));
+    let currentBudget = parseInt(localStorage.getItem("budget")) || 60;
 
-    // 4. Trigger the single alert
     if (isWin) {
         currentBudget += 5;
         localStorage.setItem("budget", currentBudget);
-        gameAlert("STEADY HANDS! 🍷<br>You delivered the meal perfectly. $5 bonus tip!", "day3.html");
+        alert("STEADY HANDS! 🍷\nYou delivered the meal perfectly. $5 bonus tip!");
+        window.location.href = "day3.html";
     } else {
         currentBudget -= 10;
         localStorage.setItem("budget", currentBudget);
-        gameAlert("CRASH! 💥<br>You dropped the tray! Pay $10 for broken dishes.", "day3.html");
+        alert("CRASH! 💥\nYou dropped the tray! Pay $10 for broken dishes.");
+        window.location.href = "day3.html";
     }
 }
 
