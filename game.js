@@ -464,7 +464,7 @@ function startScavengerGame() {
     });
 
     let itemsToScatter = [...targetItems];
-    for (let i = 0; i < 45; i++) {
+    for (let i = 0; i < 100; i++) {
         let randomJunk = junkItems[Math.floor(Math.random() * junkItems.length)];
         itemsToScatter.push(randomJunk);
     }
