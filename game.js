@@ -482,6 +482,10 @@ function startScavengerGame() {
         let isTarget = targetItems.includes(item);
         element.style.zIndex = isTarget ? "10" : "1";
 
+      if (isTarget) {
+         element.classList.add("target-glow"
+      }
+
         element.onclick = function() {
             clickGroceryItem(this, item, isTarget);
         };
