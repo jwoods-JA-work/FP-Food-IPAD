@@ -742,7 +742,7 @@ function moveSmoothly() {
 
     const trayRect = tray.getBoundingClientRect();
     
-    balanceAngle += 0.05; 
+    balanceAngle += 0.03; 
     
     let centerX = (trayRect.width / 2) - 50;
     let centerY = (trayRect.height / 2) - 50;
