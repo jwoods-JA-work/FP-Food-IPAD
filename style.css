@@ -899,6 +899,11 @@ body {
     margin: 0;
 }
 
+.target-glow {
+    filter: drop-shadow(0px 0px 5px rgba(255, 223, 0, 0.8)); /* Golden glow effect */
+    transform: scale(1.1); /* Makes target items slightly larger */
+}
+
 /* When the player finds an item, it crosses off the list! */
 .found-item {
     text-decoration: line-through;
